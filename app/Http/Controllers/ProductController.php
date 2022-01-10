@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductSingleResource;
-use App\Models\Product;
-use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
@@ -25,9 +28,26 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        if ($request->price < 10000) {
+            throw ValidationException::withMessages([
+                'price' => 'Your price is too low',
+            ]);
+        }
+        // 'slug' => strtolower(Str::slug($request->name. '-'. time())),  // kode disamping bisa dipindahin ke model bang dibikin function booted(sebuah method static)
+        //     'name' => $request->name,    //semua request disamping diganti oleh $request->toArray karena emang to array nampilin yang sama kaya kalo ditulis sendiri
+        //     'description' => $request->description,
+        //     'price' => $request->price,
+        //     'category_id' => $request->category_id,
+        // ]);
+
+        $product = Product::create($request->toArray());
+
+        return response()->json([
+            'message' => 'Product was created',
+            'product' => new ProductSingleResource($product),
+        ]);
     }
 
     /**

@@ -19,7 +19,7 @@ class ProductSingleResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'price' => number_format($this->price, 0,".","."),
-            'actual_price' => $this->actual_price,
+            'actual_price' => $this->price,
             'description' => $this->description,
             'created' => $this->created_at->format("d F, Y"),
         ];
