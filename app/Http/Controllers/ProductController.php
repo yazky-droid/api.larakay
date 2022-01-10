@@ -30,11 +30,6 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        if ($request->price < 10000) {
-            throw ValidationException::withMessages([
-                'price' => 'Your price is too low',
-            ]);
-        }
         // 'slug' => strtolower(Str::slug($request->name. '-'. time())),  // kode disamping bisa dipindahin ke model bang dibikin function booted(sebuah method static)
         //     'name' => $request->name,    //semua request disamping diganti oleh $request->toArray karena emang to array nampilin yang sama kaya kalo ditulis sendiri
         //     'description' => $request->description,
@@ -68,10 +63,16 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
-    }
+        $product->update($request->toArray());
+
+            return response()->json([
+                'message' => 'Product was updated',
+                'product' => new ProductSingleResource($product),
+            ]);
+        }
+
 
     /**
      * Remove the specified resource from storage.
