@@ -14,7 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call([
+            UserSeeder::class,
+            ProductSeeder::class,
+        ]);
+
         // \App\Models\User::factory(10)->create();
-        \App\Models\Category::factory(5)->hasProducts(5)->create(); //hasProducts itu manggil method yang dibuat tadi soalnya udah pake relasi...
+        // \App\Models\Category::factory(5)->hasProducts(5)->create(); //hasProducts itu manggil method yang dibuat tadi soalnya udah pake relasi...
     }
 }

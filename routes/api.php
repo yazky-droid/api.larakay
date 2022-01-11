@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TokenGeneratorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', fn () => response()->json(['message' => 'Hello World']));
 
 Route::apiResource('products', ProductController::class);
+
+Route::post('token/generator', TokenGeneratorController::class);

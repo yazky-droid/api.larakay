@@ -17,6 +17,12 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function __construct()
+     {
+        $this->middleware('auth:sanctum')->except(['index','show']);
+     }
+
     public function index()
     {
         return ProductResource::collection(Product::paginate(16)); //pake paginate untuk membatasi jadi 16 per page
@@ -82,6 +88,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return response()->json([
+            'message' => 'Product was deleted',
+        ]);
     }
 }
