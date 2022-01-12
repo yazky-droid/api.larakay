@@ -42,6 +42,7 @@ class ProductController extends Controller
         //     'price' => $request->price,
         //     'category_id' => $request->category_id,
         // ]);
+        $this->authorize('if_moderator');
 
         $product = Product::create($request->toArray());
 
@@ -71,6 +72,7 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
+        $this->authorize('if_admin');
         $product->update($request->toArray());
 
             return response()->json([
@@ -88,6 +90,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        $this->authorize('if_moderator'); //ini bisa didapetin dari file AuthServiceProvider yang Gate::define
         $product->delete();
         return response()->json([
             'message' => 'Product was deleted',
